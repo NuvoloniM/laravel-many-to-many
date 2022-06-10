@@ -116,7 +116,7 @@ deleteForm.forEach(function (form) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/matteonuvoloni/Desktop/Boolean/Laravell/laravel-auth-1/resources/js/deleteMessage.js */"./resources/js/deleteMessage.js");
+module.exports = __webpack_require__(/*! /Users/matteonuvoloni/Desktop/Boolean/Laravell/laravel-many-to-many/resources/js/deleteMessage.js */"./resources/js/deleteMessage.js");
 
 
 /***/ })
