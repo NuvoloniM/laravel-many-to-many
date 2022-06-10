@@ -86,7 +86,13 @@ class PostController extends Controller
     {
         // anche qui mi devo passare i dati per la select delle category
         $categories = Category::all();
-        return view ('admin.posts.edit', compact('post','categories'));
+        // anche qui importo i dati per la checkbox dei Tags
+        $tags = Tag::all();
+        // mi devo passare l'array contenente tutti i tag id collegati al mio post
+        // mi posso passare solo i dati di una determinata colonna tramite pluck però ottengo un array multidimensionale
+        // allora lo trasformo in un array semplice tramite la funzione toArray()
+        $post_tags_id = $post->tags()->pluck('id')->toArray();
+        return view ('admin.posts.edit', compact('post','categories', 'tags', 'post_tags_id'));
     }
 
     /**

@@ -20,6 +20,13 @@
               <p class="card-text"> {{$post->content}}</p>
               @include('includes.deleteForm')
             </div>
+            <h6 class="card-title">tags:</h3>
+              {{-- richiamo la funzione nel model che mette in relazione le tabelle con quella ponte per poter accedere ai dati  --}}
+            @forelse ( $post->tags as $tag )
+                <span class="badge" style=" background-color: {{ $tag->color }} " >{{ $tag->label }}</span>
+            @empty
+                <h3>Non ci sono tag abbinati</h3>
+            @endforelse
           </div>
     </div>
 @endsection
