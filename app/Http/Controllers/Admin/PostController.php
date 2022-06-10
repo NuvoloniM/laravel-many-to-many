@@ -110,6 +110,12 @@ class PostController extends Controller
         $post->slug = Str::slug($request->title, '-');
         // metodo update
         $post->update($data);
+
+        // faccio lo stesso controllo della store.
+        // uso sync che controlla tutti gli id in comune ed elimina tutti gli altri dall'array
+        if ( array_key_exists( 'tags', $data ) )  $post->tags()->sync($data['tags']);
+
+
         return redirect()->route('admin.posts.show', $post)->with('message', "Hai modificato con successo: $post->title");
     }
 
