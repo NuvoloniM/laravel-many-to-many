@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 // importo model
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Tag;
 // importo support per usare STR::
 use Illuminate\Support\Str;
 
@@ -33,7 +34,9 @@ class PostController extends Controller
     {
         // mi passo dei dati della category cosi da poter creare una select con essi 
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+        // importo i dati dei tag cosi da crearne una checkbox
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('categories','tags'));
     }
 
     /**
