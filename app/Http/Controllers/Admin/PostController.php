@@ -57,6 +57,10 @@ class PostController extends Controller
         $new_post->slug = Str::slug($new_post->title, '-');
         // salvo la nuova variabile
         $new_post->save();
+        // mi chiedo se c'è un array con delle chiavi che specifico in una determinata variabile('')
+        // quando creo un nuovo post gli passo l'array tag ottenuto dal checkbox
+        // per passarlo alla tabella ponte uso attach() 
+        if ( array_key_exists( 'tags', $data ) )  $post->tags()->attach($data['tags']);
         // redirecto la vista alla pagina index 
         return redirect()->route('admin.posts.index')->with('message', 'Hai aggiunto un nuovo post');
     }
