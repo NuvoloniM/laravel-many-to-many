@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('admin.posts.store')}}" method="POST">
+  {{-- inserisco il valore enctype per poter far comunicare il form allo storage --}}
+    <form action="{{route('admin.posts.store')}}" method="POST" enctype="multipart-form-data">
         @csrf
         <div class="form-group">
           <label for="title">Add a title</label>
@@ -25,10 +26,16 @@
           <label for="content">Write the content of your post</label>
           <textarea class="form-control" id="content" rows="5" placeholder="A cosa stai pensando?" name="content"></textarea>
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label for="image">Add your img URL</label>
             <input type="text" class="form-control" id="image" placeholder="image..." name="image">
-          </div>
+          </div> --}}
+          <div class="form-group">
+            <label for="image">Immagine del post</label>
+            {{-- type file per poter permette il caricamento della foto  --}}
+            <input type="file" class="form-control-file" id="image" placeholder="url dell'immagine" name="image">
+        </div>
+
 
           
           <hr>

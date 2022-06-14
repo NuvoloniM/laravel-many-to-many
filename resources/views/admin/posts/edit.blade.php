@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('admin.posts.update', $post->id)}}" method="POST">
+  {{-- come con il create, anche nell'edit mi devo creare il collegamento con enctype --}}
+    <form action="{{route('admin.posts.update', $post->id)}}" method="POST" enctype="multipart/form-data">
         @method('PUT')
         @csrf
         <div class="form-group">
@@ -27,10 +28,16 @@
             {{ old('content', $post->content)}}
           </textarea>
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label for="image">Add your img URL</label>
             <input type="text" class="form-control" id="image" placeholder="image..." name="image" value="{{old('image', $post->image)}}">
-          </div>
+          </div> --}}
+          {{-- anche qua modifico il type in file --}}
+          <div class="form-group">
+            <label for="image">Immagine del post</label>
+            <input type="file" class="form-control-file" id="image" placeholder="url dell'immagine" name="image">
+        </div>
+
 
           @foreach ( $tags as $tag )
           <div class="form-check form-check-inline">

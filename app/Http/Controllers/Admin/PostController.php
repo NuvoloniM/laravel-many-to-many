@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Tag;
 // importo support per usare STR::
 use Illuminate\Support\Str;
+// importo degli helpers per la Storage
+use Illuminate\Support\facades\Storage;
 
 class PostController extends Controller
 {
@@ -49,8 +51,18 @@ class PostController extends Controller
     {
         // salvo i dati arrivati
         $data = $request->all();
+
         // istaznio nuova variabile vuota con le stesse caratteristiche dei post del database
         $new_post = new Post();
+        // grazie all'enctype riesco a ricevere l'informazione del file caricato-> devo gestire l'info
+        // creo varisbile, ma prima un if per vedere se il dato viene caricato o meno
+        if (array_key_exist('image', $data)) {
+            // avendolo importato posso usare il metodo Storasge::put che mi restituisce il nome della cartella in public e il percorso che sto ricevendo
+            $image_url = Storage::put('post_image', $data['image']);
+            // salvo il percorso in una variabile
+            $data['image'] = $image_url;
+        }
+
         //riempio la nuova istanza vuota con i dati salvati (solo se prima ho reso fillable nel Models)
         $new_post->fill($data);
         // creo la slug partendo dal title nuovo
@@ -108,6 +120,18 @@ class PostController extends Controller
         $data = $request->all();
         // per creare lo slug devo prendere i dati della request 
         $post->slug = Str::slug($request->title, '-');
+
+        // con l'enctype mi sono passato il percorso, ma devo gestire le informazioni 
+        // prima metto una condizione -> mi chiedo se sto ricevendo un immagine 
+        if (array_key_exist('image', $data)) {
+            // se il post ha un immagine, per evitare di avere due foto che riguardano un solo post, la prima la elimino
+            if ($post->image) Storage::delete($post->image);
+
+            // come nella create utilizzo il metodo put per creare la cartella e identificare il percorso, e poi lo salvo in una variabile
+            $image_url = Storage::put('post_image', $data['image']);
+            $data['image'] = $image_url;
+        }
+
         // metodo update
         $post->update($data);
 
