@@ -7,21 +7,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 // importo il model dei post per poter usare i dati nella mail
+use App\Models\Post;
 
 class SendNewMail extends Mailable
 {
     use Queueable, SerializesModels;
     // importando e usando i dati dei post meglio renderli private
-    private $post;
+    private $new_post;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($new_post)
     {
         // mi passo i dati del post
-        $this->post = $post;
+        $this->post = $new_post;
     }
 
     /**

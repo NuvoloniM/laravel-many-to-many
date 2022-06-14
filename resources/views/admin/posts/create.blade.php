@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
   {{-- inserisco il valore enctype per poter far comunicare il form allo storage --}}
-    <form action="{{route('admin.posts.store')}}" method="POST" enctype="multipart-form-data">
+    <form action="{{route('admin.posts.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
           <label for="title">Add a title</label>

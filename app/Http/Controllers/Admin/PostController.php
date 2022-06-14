@@ -17,7 +17,7 @@ use Illuminate\Support\facades\Storage;
 use illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 // importo il model della mail 
-use App\Mail\CreatePostMail;
+use App\Mail\SendNewMail;
 
 class PostController extends Controller
 {
@@ -66,7 +66,9 @@ class PostController extends Controller
         // creo varisbile, ma prima un if per vedere se il dato viene caricato o meno
         if (array_key_exists('image', $data)) {
             // avendolo importato posso usare il metodo Storasge::put che mi restituisce il nome della cartella in public e il percorso che sto ricevendo
+            var_dump($data['image']);
             $image_url = Storage::put('post_image', $data['image']);
+            var_dump($image_url);
             // salvo il percorso in una variabile
             $data['image'] = $image_url;
         }
@@ -80,11 +82,11 @@ class PostController extends Controller
         // mi chiedo se c'è un array con delle chiavi che specifico in una determinata variabile('')
         // quando creo un nuovo post gli passo l'array tag ottenuto dal checkbox
         // per passarlo alla tabella ponte uso attach() 
-        if ( array_key_exists( 'tags', $data ) )  $post->tags()->attach($data['tags']);
+        if ( array_key_exists( 'tags', $data ) )  $new_post->tags()->attach($data['tags']);
 
         // alla creazione del post invio una mail autogenerata
         // istanzio variabile a base oggetto del model e gli passo i dati del post per poterli riutilizzare nella mail
-        $mail = new CreatePostMail ($post);
+        $mail = new SendNewMail ($new_post);
         Mail::to($user->email)->send($mail);
 
         // redirecto la vista alla pagina index 
