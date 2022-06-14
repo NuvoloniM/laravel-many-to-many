@@ -35,7 +35,7 @@
                         </p>
                     </td>
                     <td>
-                        <img src="{{$post->image}}" alt="{{$post->title}}" style="width: 200px">
+                        <img src="{{asset( "storage/$post->image" )}}" alt="{{$post->title}}" style="width: 200px">
                     </td>
                     <td>{{$post->slug}}</td>
                     <td>

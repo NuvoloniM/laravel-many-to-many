@@ -12,6 +12,12 @@ use App\Models\Tag;
 use Illuminate\Support\Str;
 // importo degli helpers per la Storage
 use Illuminate\Support\facades\Storage;
+// importo degli helpers inerenti alle mail
+// permette a laravel di capire che utente è loggato 
+use illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+// importo il model della mail 
+use App\Mail\CreatePostMail;
 
 class PostController extends Controller
 {
@@ -51,12 +57,14 @@ class PostController extends Controller
     {
         // salvo i dati arrivati
         $data = $request->all();
+        // mi passo i dati dell'use per poterli passare alla mail autogenerata
+        $user= Auth::user();
 
         // istaznio nuova variabile vuota con le stesse caratteristiche dei post del database
         $new_post = new Post();
         // grazie all'enctype riesco a ricevere l'informazione del file caricato-> devo gestire l'info
         // creo varisbile, ma prima un if per vedere se il dato viene caricato o meno
-        if (array_key_exist('image', $data)) {
+        if (array_key_exists('image', $data)) {
             // avendolo importato posso usare il metodo Storasge::put che mi restituisce il nome della cartella in public e il percorso che sto ricevendo
             $image_url = Storage::put('post_image', $data['image']);
             // salvo il percorso in una variabile
@@ -73,6 +81,12 @@ class PostController extends Controller
         // quando creo un nuovo post gli passo l'array tag ottenuto dal checkbox
         // per passarlo alla tabella ponte uso attach() 
         if ( array_key_exists( 'tags', $data ) )  $post->tags()->attach($data['tags']);
+
+        // alla creazione del post invio una mail autogenerata
+        // istanzio variabile a base oggetto del model e gli passo i dati del post per poterli riutilizzare nella mail
+        $mail = new CreatePostMail ($post);
+        Mail::to($user->email)->send($mail);
+
         // redirecto la vista alla pagina index 
         return redirect()->route('admin.posts.index')->with('message', 'Hai aggiunto un nuovo post');
     }
