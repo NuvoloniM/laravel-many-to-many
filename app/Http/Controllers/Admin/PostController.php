@@ -103,7 +103,7 @@ class PostController extends Controller
         // mi devo passare l'array contenente tutti i tag id collegati al mio post
         // mi posso passare solo i dati di una determinata colonna tramite pluck però ottengo un array multidimensionale
         // allora lo trasformo in un array semplice tramite la funzione toArray()
-        $post_tags_id = $post->tags()->pluck('id')->toArray();
+        $post_tags_id = $post->tags->pluck('id')->toArray();
         return view ('admin.posts.edit', compact('post','categories', 'tags', 'post_tags_id'));
     }
 
@@ -123,7 +123,7 @@ class PostController extends Controller
 
         // con l'enctype mi sono passato il percorso, ma devo gestire le informazioni 
         // prima metto una condizione -> mi chiedo se sto ricevendo un immagine 
-        if (array_key_exist('image', $data)) {
+        if (array_key_exists('image', $data)) {
             // se il post ha un immagine, per evitare di avere due foto che riguardano un solo post, la prima la elimino
             if ($post->image) Storage::delete($post->image);
 
